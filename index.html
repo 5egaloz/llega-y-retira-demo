@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ofertas de hoy</title>
+<meta name="theme-color" content="#1E3932">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#006241;        /* títulos */
+  --verde-accion:#00754A; /* botones y bolsa */
+  --verde-casa:#1E3932;   /* franjas oscuras y pie */
+  --verde-uplift:#2b5148; /* decorativo */
+  --verde-claro:#d4e9e2;  /* tinte de "listo" */
+  --dorado:#cba258;       /* solo el momento "apartado" */
+  --dorado-claro:#faf6ee;
+  --crema:#f2f0eb;        /* lienzo */
+  --ceramica:#edebe9;
+  --blanco:#fff;
+  --texto:rgba(0,0,0,.87);
+  --texto-2:rgba(0,0,0,.58);
+  --blanco-2:rgba(255,255,255,.70);
+  --rojo:#c82014;
+  --borde:#d6dbde;
+  --sombra-card:0 0 .5px 0 rgba(0,0,0,.14),0 1px 1px 0 rgba(0,0,0,.24);
+  --sombra-nav:0 1px 3px rgba(0,0,0,.1),0 2px 2px rgba(0,0,0,.06),0 0 2px rgba(0,0,0,.07);
+  --sombra-bolsaflot:0 0 6px rgba(0,0,0,.24),0 8px 12px rgba(0,0,0,.14);
+  --g:16px;
+}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:Manrope,"Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-.01em;background:var(--crema);color:var(--texto);font-size:16px;line-height:1.5}
+button,input,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--verde-accion);outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 var(--g)}
+@media(min-width:768px){:root{--g:24px}}
+@media(min-width:1024px){:root{--g:40px}}
+
+/* Píldoras: la única forma de botón */
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:7px 20px;border-radius:50px;border:1px solid var(--verde-accion);background:var(--verde-accion);color:#fff;font-weight:600;font-size:16px;text-decoration:none;transition:all .2s ease}
+.pill:active{transform:scale(.95)}
+.pill.borde{background:transparent;color:var(--verde-accion)}
+.pill.blanca{background:#fff;border-color:#fff;color:var(--verde-accion)}
+.pill.negra{background:#000;border-color:#000;font-size:14px;min-height:36px}
+.pill:disabled{opacity:.5}
+
+/* Franja negra superior */
+.franja{background:#000;color:#fff;font-size:14px}
+.franja .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:40px}
+.franja b{font-weight:600}
+.franja span{color:var(--blanco-2)}
+
+/* Barra global */
+.nav{background:#fff;box-shadow:var(--sombra-nav);position:sticky;top:0;z-index:30}
+.nav .wrap{display:flex;align-items:center;gap:16px;min-height:64px}
+.logo{display:flex;align-items:center;gap:10px;color:var(--verde);font-weight:800;font-size:20px;white-space:nowrap}
+.logo .sello{width:38px;height:38px;border-radius:50%;background:var(--verde);display:grid;place-items:center}
+.buscar{flex:1;position:relative;max-width:520px;margin-left:auto}
+.buscar input{width:100%;height:44px;border-radius:50px;border:1px solid var(--borde);background:#fff;padding:0 16px 0 44px;font-size:16px}
+.buscar input:focus{border-color:var(--verde-accion);outline:none}
+.buscar svg{position:absolute;left:16px;top:13px;pointer-events:none}
+.tienda-link{display:none;color:var(--texto);font-weight:600;font-size:14px;align-items:center;gap:6px;white-space:nowrap}
+@media(min-width:768px){.nav .wrap{min-height:72px}.tienda-link{display:flex}}
+@media(max-width:479px){.logo .nombre{display:none}}
+
+/* Portada: crema + texto, franja verde con los pasos */
+.hero{padding:32px 0 28px}
+.hero .wrap{display:grid;gap:40px;align-items:center}
+.muestra{display:none}
+@media(min-width:1024px){.hero .wrap{grid-template-columns:60fr 40fr}.muestra{display:block}}
+.muestra .ticket{margin:0;max-width:380px;justify-self:end;transform:rotate(-2deg);box-shadow:0 0 6px rgba(0,0,0,.24),0 8px 12px rgba(0,0,0,.14)}
+.hero h1{color:var(--verde);font-weight:600;font-size:28px;line-height:1.2;max-width:18ch}
+.hero p{font-size:19px;line-height:1.75;color:var(--texto);margin-top:8px;max-width:34ch}
+.hero .acciones{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+@media(min-width:768px){.hero{padding:56px 0 48px}.hero h1{font-size:45px}}
+.banda{background:var(--verde-casa);color:#fff}
+.banda .wrap{display:grid;gap:20px;padding-top:28px;padding-bottom:28px}
+@media(min-width:768px){.banda .wrap{grid-template-columns:repeat(3,1fr);gap:40px;padding-top:40px;padding-bottom:40px}}
+.paso{display:flex;gap:14px;align-items:flex-start}
+.paso .num{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.4);display:grid;place-items:center;font-weight:700}
+.paso b{display:block;font-size:17px;font-weight:600}
+.paso span{color:var(--blanco-2);font-size:14px}
+
+/* Listado */
+.listado{padding:40px 0 120px}
+.cab{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.cab h2{font-size:24px;font-weight:400;line-height:1.5}
+.cab .estado{color:var(--texto-2);font-size:14px;display:flex;align-items:center;gap:8px}
+.cab .vivo{width:8px;height:8px;border-radius:50%;background:var(--verde-accion);box-shadow:0 0 0 4px var(--verde-claro)}
+.filtros{display:flex;gap:8px;overflow-x:auto;margin:16px calc(var(--g) * -1) 0;padding:4px var(--g);scrollbar-width:none}
+.filtros::-webkit-scrollbar{display:none}
+.filtros button{flex:none;min-height:40px;padding:6px 18px;border-radius:50px;border:1px solid rgba(0,0,0,.87);background:transparent;font-weight:600;font-size:14px;transition:all .2s ease}
+.filtros button[aria-pressed="true"]{background:var(--verde-casa);border-color:var(--verde-casa);color:#fff}
+.filtros button:active{transform:scale(.95)}
+.aviso{margin-top:16px;background:#fff;border-radius:12px;box-shadow:var(--sombra-card);padding:14px 16px;color:var(--texto)}
+.aviso b{color:var(--rojo)}
+
+.grilla{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+@media(min-width:768px){.grilla{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}
+@media(min-width:1024px){.grilla{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}}
+.prod{background:#fff;border-radius:12px;box-shadow:var(--sombra-card);display:flex;flex-direction:column;overflow:hidden}
+.prod .img{position:relative;aspect-ratio:1/1;display:grid;place-items:center;background:#fff}
+.prod .img img{width:100%;height:100%;object-fit:contain;transition:opacity .3s ease-in}
+.prod .marca{position:absolute;left:10px;top:10px;font-size:12px;font-weight:700;color:var(--rojo);background:#fff;border:1px solid var(--rojo);border-radius:50px;padding:2px 10px}
+.prod .mas{position:absolute;right:10px;bottom:10px;width:44px;height:44px;border-radius:50%;border:0;background:var(--verde-accion);color:#fff;display:grid;place-items:center;box-shadow:var(--sombra-bolsaflot);transition:transform .2s ease}
+.prod .mas:active{transform:scale(.95)}
+.stepper{position:absolute;right:8px;bottom:8px;left:8px;height:48px;border-radius:50px;background:#fff;box-shadow:var(--sombra-bolsaflot);display:flex;align-items:center;justify-content:space-between;padding:0 8px}
+.stepper button{width:32px;height:32px;border-radius:50%;border:1px solid var(--borde);background:#fff;display:grid;place-items:center;color:var(--texto);font-size:18px;font-weight:600}
+.stepper button:disabled{opacity:.35}
+.stepper .n{font-weight:700;font-size:16px}
+.stepper .n small{font-weight:500;color:var(--texto-2);font-size:12px;margin-left:2px}
+.prod .info{padding:12px 14px 16px;display:flex;flex-direction:column;gap:2px}
+.prod .rubro{font-size:12px;color:var(--texto-2)}
+.prod .nom{font-size:16px;font-weight:600;line-height:1.3}
+.prod .fmt{font-size:13px;color:var(--texto-2)}
+.prod .pre{margin-top:6px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.prod .pre b{font-size:19px;font-weight:700}
+.prod .pre span{font-size:12px;color:var(--texto-2)}
+.prod .cupo{font-size:13px;color:var(--texto-2);margin-top:2px}
+.prod.cero .img img{filter:grayscale(1);opacity:.45}
+.prod.cero .agotado{position:absolute;left:10px;right:10px;bottom:10px;text-align:center;font-size:13px;font-weight:600;color:var(--texto-2);background:var(--ceramica);border-radius:50px;padding:8px}
+.vacio{grid-column:1/-1;padding:32px 0;color:var(--texto-2)}
+
+/* Botón flotante de la bolsa */
+.bolsaflot{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:40;height:56px;min-width:56px;border-radius:50px;border:0;background:var(--verde-accion);color:#fff;box-shadow:var(--sombra-bolsaflot);display:flex;align-items:center;justify-content:center;gap:10px;padding:0 16px;font-weight:600;font-size:16px;transition:all .25s ease}
+.bolsaflot:active{transform:scale(.95)}
+.bolsaflot .cuenta{min-width:24px;height:24px;border-radius:12px;background:#fff;color:var(--verde-accion);font-size:13px;font-weight:800;display:grid;place-items:center;padding:0 6px}
+.bolsaflot .txt,.bolsaflot .cuenta{display:none}
+.bolsaflot.lleno{padding:0 20px 0 14px}
+.bolsaflot.lleno .txt,.bolsaflot.lleno .cuenta{display:inline-grid}
+
+/* Pie */
+footer{background:var(--verde-casa);color:#fff}
+footer .wrap{padding-top:32px;padding-bottom:96px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px}
+footer span,footer a{color:var(--blanco-2)}
+
+/* Modal de la bolsa */
+dialog{border:0;padding:0;background:transparent;width:100%;max-width:none;height:100%;max-height:none}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+.hoja{position:fixed;left:0;right:0;bottom:0;max-height:92vh;overflow:auto;background:var(--crema);border-radius:12px 12px 0 0;max-width:560px;margin:0 auto;padding:24px var(--g) calc(24px + env(safe-area-inset-bottom))}
+@media(min-width:768px){.hoja{top:50%;bottom:auto;transform:translateY(-50%);border-radius:12px;padding:32px}}
+.hoja h3{color:var(--verde);font-size:24px;font-weight:600;line-height:1.3}
+.hoja .sub{color:var(--texto-2);margin-top:4px}
+.caja{background:#fff;border-radius:12px;box-shadow:var(--sombra-card);padding:16px;margin-top:16px}
+.caja h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.linea{display:flex;justify-content:space-between;gap:12px;padding:6px 0}
+.linea.tot{border-top:1px solid var(--borde);margin-top:6px;padding-top:12px;font-weight:700;font-size:18px}
+.horas{display:flex;flex-wrap:wrap;gap:8px}
+.horas label{position:relative}
+.horas input{position:absolute;inset:0;opacity:0}
+.horas span{display:inline-flex;align-items:center;min-height:44px;padding:6px 16px;border-radius:50px;border:1px solid var(--borde);background:#fff;font-size:14px;font-weight:600}
+.horas input:checked+span{border:2px solid var(--verde-accion);color:var(--verde-accion);padding:5px 15px}
+.horas input:focus-visible+span{outline:3px solid var(--verde-accion);outline-offset:2px}
+.flota{position:relative;display:block;margin-top:14px}
+.flota:first-of-type{margin-top:0}
+.flota input,.flota textarea{width:100%;min-height:52px;border:1px solid var(--borde);border-radius:4px;padding:20px 12px 6px;font-size:16px;background:#fff;resize:none}
+.flota textarea{min-height:76px}
+.flota span{position:absolute;left:12px;top:15px;color:var(--texto-2);font-size:16px;pointer-events:none;transition:all .2s ease}
+.flota input:focus,.flota textarea:focus{border-color:var(--verde-accion);outline:none}
+.flota input:focus+span,.flota input:not(:placeholder-shown)+span,.flota textarea:focus+span,.flota textarea:not(:placeholder-shown)+span{top:5px;font-size:12px;font-weight:600}
+.flota.ok input{background:rgba(212,233,226,.33)}
+.pagos{display:grid;gap:8px}
+.pagos label{display:flex;align-items:center;gap:12px;border:1px solid var(--borde);border-radius:12px;padding:12px 14px;background:#fff}
+.pagos input{width:20px;height:20px;accent-color:var(--verde-accion)}
+.pagos b{display:block;font-weight:600}.pagos small{color:var(--texto-2);font-size:13px}
+.pagos label:has(input:checked){border:2px solid var(--verde-accion);padding:11px 13px}
+.err{display:none;margin-top:12px;border-radius:12px;background:hsl(4 82% 43% / 5%);color:var(--rojo);padding:12px 14px;font-weight:600}
+.botones{display:flex;gap:10px;margin-top:20px}
+.botones .pill{flex:1;min-height:52px}
+.botones .pill.borde{flex:none}
+
+/* Ticket: el único lugar con dorado */
+.ticket{margin-top:20px;border-radius:12px;overflow:hidden;box-shadow:var(--sombra-card);background:#fff}
+.ticket .arriba{background:var(--verde-casa);color:#fff;padding:20px 16px 22px;text-align:center}
+.ticket .etq{display:inline-block;border:1px solid var(--dorado);color:var(--dorado);border-radius:50px;padding:2px 12px;font-size:13px;font-weight:700}
+.ticket .cod{font-size:44px;font-weight:800;letter-spacing:.04em;margin-top:8px;line-height:1.1}
+.ticket .de{color:var(--blanco-2);font-size:14px;margin-top:4px}
+.estados{list-style:none;padding:18px 16px 8px;display:grid;gap:14px}
+.estados li{display:flex;gap:12px;color:var(--texto-2)}
+.estados i{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--borde);display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:800}
+.estados li.hecho{color:var(--texto);font-weight:600}
+.estados li.hecho i{background:var(--verde-accion);border-color:var(--verde-accion);color:#fff}
+.estados small{display:block;font-weight:400;color:var(--texto-2);font-size:13px}
+.ticket .resumen{border-top:1px solid var(--ceramica);padding:12px 16px 16px;color:var(--texto-2);font-size:14px}
+.retiro{margin-top:12px;background:var(--dorado-claro);border-radius:12px;padding:12px 14px;font-weight:600}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="franja"><div class="wrap"><span><b style="color:#fff">Retiro en tienda</b> · sin costo y sin fila</span><span id="ciudad">Coyhaique</span></div></div>
+
+<header class="nav"><div class="wrap">
+  <div class="logo">
+    <span class="sello" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14l-1.2 10.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 9z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></svg></span>
+    <span class="nombre" id="marca">Frutería</span>
+  </div>
+  <label class="buscar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,.58)" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+    <input id="q" type="search" placeholder="Buscar en las ofertas" aria-label="Buscar productos" autocomplete="off">
+  </label>
+  <span class="tienda-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span id="dirNav">Coyhaique</span></span>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div>
+  <h1>Aparta hoy y retira sin hacer fila</h1>
+  <p>Lo que eliges queda guardado a tu nombre. Llegas, das tu código y te vas.</p>
+  <div class="acciones"><a class="pill" href="#ofertas">Ver las ofertas de hoy</a></div>
+  </div>
+  <div class="muestra" aria-hidden="true"><div class="ticket">
+    <div class="arriba"><span class="etq">Apartado</span><div class="cod">LR-0427</div><div class="de">Muéstralo en el mostrador al retirar</div></div>
+    <ul class="estados"><li class="hecho"><i>✓</i><span>Apartado a tu nombre</span></li><li class="hecho"><i>✓</i><span>Bolsa armada<small>2 kg manzanas · 1 kg tomates</small></span></li><li><i>3</i><span>Retiras y pagas en caja</span></li></ul>
+  </div></div>
+</div></section>
+
+<section class="banda" aria-label="Cómo funciona"><div class="wrap">
+  <div class="paso"><span class="num">1</span><div><b>Elige</b><span>Lo que hay hoy, con los cupos en vivo.</span></div></div>
+  <div class="paso"><span class="num">2</span><div><b>Aparta</b><span>Queda guardado a tu nombre. Recibes un código.</span></div></div>
+  <div class="paso"><span class="num">3</span><div><b>Retira</b><span>La bolsa te espera armada. Pagas en caja.</span></div></div>
+</div></section>
+
+<main class="listado" id="ofertas"><div class="wrap">
+  <div class="cab"><h2>Ofertas de hoy</h2><span class="estado"><span class="vivo"></span><span id="estado">Cargando…</span></span></div>
+  <div class="filtros" id="filtros" role="toolbar" aria-label="Filtrar por tipo"></div>
+  <div class="aviso" id="aviso" hidden></div>
+  <div class="grilla" id="grilla"></div>
+</div></main>
+
+<footer><div class="wrap"><span id="pie"></span><a id="linkGrupo" href="#">Grupo de ofertas</a></div></footer>
+
+<button class="bolsaflot" id="bolsaflot" aria-label="Abrir mi bolsa">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h14l-1.2 10.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 9z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></svg>
+  <span class="cuenta" id="cuenta">0</span><span class="txt" id="bolsaTxt">Ver bolsa</span>
+</button>
+
+<dialog id="dlg"><div class="hoja">
+  <div id="paso1">
+    <h3>Tu bolsa</h3>
+    <p class="sub">Elige cuándo pasas y déjanos tus datos.</p>
+    <div class="caja"><h4>Resumen</h4><div id="detalle"></div></div>
+    <div class="caja"><h4>¿Cuándo pasas a retirar?</h4><div class="horas" id="horas"></div></div>
+    <div class="caja"><h4>Tus datos</h4>
+      <label class="flota" id="cNombre"><input id="fNombre" autocomplete="name" placeholder=" "><span>Nombre y apellido</span></label>
+      <label class="flota" id="cFono"><input id="fFono" type="tel" inputmode="tel" autocomplete="tel" placeholder=" "><span>Teléfono para avisarte</span></label>
+      <label class="flota"><textarea id="fNota" placeholder=" "></textarea><span>¿Algo que agregar? (opcional)</span></label>
+    </div>
+    <div class="caja"><h4>¿Cómo vas a pagar?</h4>
+      <div class="pagos">
+        <label><input type="radio" name="pago" value="EFECTIVO" checked><span><b>Efectivo en caja</b><small>Al retirar. Te dejamos el vuelto listo.</small></span></label>
+        <label><input type="radio" name="pago" value="TARJETA"><span><b>Tarjeta en caja</b><small>Débito o crédito al retirar.</small></span></label>
+      </div>
+    </div>
+    <div class="err" id="err"></div>
+    <div class="botones"><button class="pill borde" id="btnVolver">Seguir viendo</button><button class="pill" id="btnConfirmar">Apartar mi bolsa</button></div>
+  </div>
+
+  <div id="paso2" hidden>
+    <h3>Tu bolsa quedó apartada</h3>
+    <p class="sub">Guarda este código. Es lo único que necesitas.</p>
+    <div class="ticket">
+      <div class="arriba">
+        <span class="etq">Apartado</span>
+        <div class="cod" id="codigo">LR-0000</div>
+        <div class="de">Muéstralo en el mostrador al retirar</div>
+      </div>
+      <ul class="estados">
+        <li class="hecho"><i>✓</i><span>Apartado a tu nombre</span></li>
+        <li><i>2</i><span>Armamos tu bolsa<small>Te avisamos al teléfono cuando esté lista</small></span></li>
+        <li><i>3</i><span>Retiras y pagas en caja</span></li>
+      </ul>
+      <div class="resumen" id="resumenFinal"></div>
+    </div>
+    <div class="retiro" id="avisoRetiro"></div>
+    <div class="botones"><a class="pill borde" id="btnWa" href="#" target="_blank" rel="noopener">Guardar código</a><button class="pill" id="btnCerrar">Listo</button></div>
+  </div>
+</div></dialog>
+
+<script>
+/* ===== EDITAR ACÁ ===== */
+const CONFIG = {
+  negocio:  'Frutería',
+  direccion:'',
+  ciudad:   'Coyhaique',
+  api:      'demo',      // 'demo' = datos ficticios, sin servidor. En producción: URL del webhook.
+  token:    'demo',
+  grupo:    '#',
+  whatsapp: '',
+  horarios: ['Hoy 10:00 - 13:00', 'Hoy 13:00 - 16:00', 'Hoy 16:00 - 19:00', 'Mañana en la mañana', 'Mañana en la tarde'],
+};
+/* ====================== */
+
+const $ = (id) => document.getElementById(id);
+const plata = (n) => '$' + Math.round(n).toLocaleString('es-CL');
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let OFERTAS = [], CAT = 'Todo';
+const carro = {};
+
+/* ---------- Modo demo: datos ficticios ---------- */
+const DEMO = [
+  {producto:'Manzanas rojas', formato:'por kilo', precio:1490, disponibles:12},
+  {producto:'Manzanas verdes', formato:'por kilo', precio:1590, disponibles:10},
+  {producto:'Peras', formato:'por kilo', precio:1790, disponibles:9},
+  {producto:'Plátanos', formato:'por kilo', precio:1290, disponibles:6},
+  {producto:'Naranjas', formato:'por kilo', precio:1390, disponibles:14},
+  {producto:'Mandarinas', formato:'por kilo', precio:1990, disponibles:8},
+  {producto:'Limones', formato:'por kilo', precio:1890, disponibles:11},
+  {producto:'Paltas Hass', formato:'por kilo', precio:5990, disponibles:3},
+  {producto:'Kiwis', formato:'por kilo', precio:2490, disponibles:7},
+  {producto:'Frutillas', formato:'bandeja 500 g', precio:2990, disponibles:0},
+  {producto:'Uva verde', formato:'por kilo', precio:3490, disponibles:5},
+  {producto:'Arándanos', formato:'bandeja 125 g', precio:1990, disponibles:4},
+  {producto:'Duraznos', formato:'por kilo', precio:2990, disponibles:2},
+  {producto:'Ciruelas', formato:'por kilo', precio:2790, disponibles:6},
+  {producto:'Piña', formato:'unidad', precio:2990, disponibles:4},
+  {producto:'Melón tuna', formato:'unidad', precio:2490, disponibles:5},
+  {producto:'Sandía', formato:'media unidad', precio:3490, disponibles:3},
+  {producto:'Pomelos', formato:'por kilo', precio:1990, disponibles:6},
+  {producto:'Tomates', formato:'por kilo', precio:1990, disponibles:8},
+  {producto:'Papas', formato:'saco 2 kg', precio:2490, disponibles:15},
+  {producto:'Cebollas', formato:'por kilo', precio:1190, disponibles:20},
+  {producto:'Ajo', formato:'malla 3 cabezas', precio:1290, disponibles:10},
+  {producto:'Zanahorias', formato:'por kilo', precio:990, disponibles:12},
+  {producto:'Camote', formato:'por kilo', precio:2290, disponibles:5},
+  {producto:'Betarragas', formato:'por kilo', precio:1290, disponibles:6},
+  {producto:'Zapallo', formato:'trozo, por kilo', precio:1490, disponibles:7},
+  {producto:'Pimentón rojo', formato:'unidad', precio:990, disponibles:9},
+  {producto:'Lechuga', formato:'unidad', precio:1190, disponibles:10},
+  {producto:'Repollo', formato:'unidad', precio:1590, disponibles:6},
+  {producto:'Brócoli', formato:'unidad', precio:1490, disponibles:5},
+  {producto:'Coliflor', formato:'unidad', precio:1990, disponibles:0},
+  {producto:'Zapallo italiano', formato:'por kilo', precio:1690, disponibles:8},
+  {producto:'Pepino', formato:'unidad', precio:690, disponibles:10},
+  {producto:'Choclo', formato:'unidad', precio:790, disponibles:12},
+  {producto:'Champiñones', formato:'bandeja 200 g', precio:1690, disponibles:3},
+  {producto:'Cilantro', formato:'atado', precio:590, disponibles:8},
+];
+async function api(ruta, op) {
+  if (CONFIG.api !== 'demo') return (await fetch(CONFIG.api + ruta, op)).json();
+  await new Promise(r => setTimeout(r, ruta === '/pedido' ? 900 : 120));
+  if (ruta === '/ofertas') return { ofertas: DEMO.map(o => ({ ...o })) };
+  JSON.parse(op.body).items.forEach(i => { const o = DEMO.find(x => x.producto === i.nombre); if (o) o.disponibles -= i.cant; });
+  return { ok: true, codigo: 'LR-0427' };
+}
+
+/* ---------- Fotos de producto (img/). La oferta trae solo el nombre: se busca por palabra clave ---------- */
+const FOTOS = [
+  [/manzana.*verde|verde.*manzana/i,'manzana-verde'],[/manzana/i,'manzana-roja'],[/pera\b|peras/i,'pera'],
+  [/pl[aá]tano/i,'platano'],[/naranja/i,'naranja'],[/mandarina/i,'mandarina'],[/lim[oó]n/i,'limon'],
+  [/palta/i,'palta'],[/kiwi/i,'kiwi'],[/frutilla/i,'frutilla'],[/uva/i,'uva-verde'],[/ar[aá]ndano/i,'arandano'],
+  [/durazno/i,'durazno'],[/ciruela/i,'ciruela'],[/pi[ñn]a/i,'pina'],[/mel[oó]n/i,'melon'],[/sand[ií]a/i,'sandia'],
+  [/pomelo/i,'pomelo'],[/tomate/i,'tomate'],[/camote/i,'camote'],[/papa/i,'papa'],[/cebolla/i,'cebolla'],
+  [/\bajo/i,'ajo'],[/zanahoria/i,'zanahoria'],[/betarraga/i,'betarraga'],[/zapallo italiano|zapallito/i,'zapallo-italiano'],
+  [/zapallo/i,'zapallo'],[/piment[oó]n/i,'pimenton'],[/lechuga/i,'lechuga'],[/repollo/i,'repollo'],
+  [/br[oó]coli/i,'brocoli'],[/coliflor/i,'coliflor'],[/pepino/i,'pepino'],[/choclo/i,'choclo'],
+  [/champi[ñn]/i,'champinon'],[/cilantro/i,'cilantro'],
+];
+const foto = (n) => { const f = FOTOS.find(([re]) => re.test(n)); return f ? 'img/' + f[1] + '.jpg' : ''; };
+const SIN_FOTO = '<svg viewBox="0 0 64 64" width="40%"><path d="M12 52C10 28 26 10 54 10c0 28-14 44-38 42z" fill="#d4e9e2"/></svg>';
+const FRUTAS = /manzana|palta|frutilla|pl[aá]tano|naranja|lim[oó]n|pera\b|peras|uva|durazno|kiwi|mandarina|cereza|ar[aá]ndano|sand[ií]a|mel[oó]n|ciruela|pi[ñn]a|pomelo|frambuesa|nectarin/i;
+const VERDURAS = /tomate|papa|lechuga|zanahoria|cebolla|zapallo|\bajo|piment|choclo|espinaca|repollo|apio|betarraga|pepino|acelga|camote|br[oó]coli|coliflor|champi|cilantro|perejil|ceboll[ií]n/i;
+const rubro = (n) => FRUTAS.test(n) ? 'Frutas' : VERDURAS.test(n) ? 'Verduras' : 'Otros';
+const porKilo = (o) => /kilo/i.test(o.formato || '') ? '(' + plata(o.precio) + ' x kg)'
+  : (/saco\s*(\d+)\s*kg/i.test(o.formato || '') ? '(' + plata(o.precio / +o.formato.match(/(\d+)\s*kg/i)[1]) + ' x kg)' : '');
+
+/* ---------- Cabecera ---------- */
+const lugar = [CONFIG.direccion, CONFIG.ciudad].filter(Boolean).join(', ');
+document.title = 'Ofertas de hoy · ' + CONFIG.negocio;
+$('marca').textContent = CONFIG.negocio;
+$('ciudad').textContent = $('dirNav').textContent = lugar;
+$('pie').textContent = CONFIG.negocio + (lugar ? ' · ' + lugar : '');
+$('linkGrupo').href = CONFIG.grupo;
+$('horas').innerHTML = CONFIG.horarios.map((h, i) => '<label><input type="radio" name="hora" value="' + esc(h) + '"' + (i ? '' : ' checked') + '><span>' + esc(h) + '</span></label>').join('');
+
+/* ---------- Carga y pintado ---------- */
+async function cargar() {
+  try {
+    const j = await api('/ofertas', { cache: 'no-store' });
+    OFERTAS = (j && j.ofertas) || [];
+    $('estado').textContent = OFERTAS.length + ' ofertas · cupos en vivo';
+    $('aviso').hidden = true;
+  } catch (e) {
+    $('estado').textContent = 'Sin conexión';
+    $('aviso').hidden = false;
+    $('aviso').innerHTML = '<b>No pudimos cargar las ofertas de hoy.</b> ' + (CONFIG.whatsapp ? 'Escríbenos por WhatsApp al ' + esc(CONFIG.whatsapp) + '.' : 'Revisa el grupo de ofertas.');
+  }
+  pintarFiltros(); pintar(); barra();
+}
+
+function pintarFiltros() {
+  const hay = ['Todo', ...['Frutas', 'Verduras', 'Otros'].filter(c => OFERTAS.some(o => rubro(o.producto) === c))];
+  if (!hay.includes(CAT)) CAT = 'Todo';
+  $('filtros').innerHTML = hay.map(c => '<button data-cat="' + c + '" aria-pressed="' + (c === CAT) + '">' + c + ' <span style="opacity:.6;font-weight:500">' + (c === 'Todo' ? OFERTAS.length : OFERTAS.filter(o => rubro(o.producto) === c).length) + '</span></button>').join('');
+}
+
+function pintar() {
+  const q = $('q').value.trim().toLowerCase();
+  const vis = OFERTAS.map((o, i) => ({ o, i })).filter(({ o }) => (CAT === 'Todo' || rubro(o.producto) === CAT) && (!q || o.producto.toLowerCase().includes(q)));
+  if (!vis.length) { $('grilla').innerHTML = '<p class="vacio">No encontramos ese producto en las ofertas de hoy.</p>'; return; }
+  $('grilla').innerHTML = vis.map(({ o, i }) => {
+    const n = carro[o.producto] || 0, cero = o.disponibles === 0, pocos = !cero && o.disponibles <= 3;
+    let control = '';
+    if (cero) control = '<div class="agotado">Se acabó por hoy</div>';
+    else if (!n) control = '<button class="mas" data-mas="' + i + '" aria-label="Agregar ' + esc(o.producto) + '"><svg width="20" height="20" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>';
+    else control = '<div class="stepper"><button data-menos="' + i + '" aria-label="Quitar uno">−</button><span class="n">' + n + '<small>' + (/kilo/i.test(o.formato || '') ? ' kg' : '') + '</small></span><button data-mas="' + i + '" aria-label="Agregar uno"' + (n >= o.disponibles ? ' disabled' : '') + '>+</button></div>';
+    return '<article class="prod' + (cero ? ' cero' : '') + '"><div class="img">' + (foto(o.producto) ? '<img src="' + foto(o.producto) + '" alt="' + esc(o.producto) + '" loading="lazy" width="800" height="800">' : SIN_FOTO) +
+      (pocos ? '<span class="marca">Últimas ' + o.disponibles + '</span>' : '') + control + '</div>' +
+      '<div class="info"><span class="rubro">' + rubro(o.producto) + '</span><span class="nom">' + esc(o.producto) + '</span><span class="fmt">' + esc(o.formato || '') + '</span>' +
+      '<div class="pre"><b>' + plata(o.precio) + '</b><span>' + porKilo(o) + '</span></div>' +
+      '<span class="cupo">' + (cero ? 'Agotado' : 'Quedan ' + o.disponibles + ' para apartar') + '</span></div></article>';
+  }).join('');
+}
+
+const items = () => OFERTAS.filter(o => carro[o.producto] > 0).map(o => ({ nombre: o.producto, cant: carro[o.producto], precio: o.precio }));
+function barra() {
+  const its = items(), total = its.reduce((s, i) => s + i.cant * i.precio, 0), u = its.reduce((s, i) => s + i.cant, 0);
+  $('bolsaflot').classList.toggle('lleno', u > 0);
+  $('cuenta').textContent = u;
+  $('bolsaTxt').textContent = 'Ver bolsa · ' + plata(total);
+  $('bolsaflot').setAttribute('aria-label', u ? 'Ver mi bolsa, ' + u + ' productos, ' + plata(total) : 'Mi bolsa está vacía');
+  return { its, total };
+}
+
+/* ---------- Interacción ---------- */
+document.addEventListener('click', (e) => {
+  const c = e.target.closest('[data-cat]');
+  if (c) { CAT = c.dataset.cat; pintarFiltros(); pintar(); return; }
+  const b = e.target.closest('[data-mas],[data-menos]');
+  if (!b) return;
+  const d = b.dataset, o = OFERTAS[d.mas !== undefined ? d.mas : d.menos], n = carro[o.producto] || 0;
+  carro[o.producto] = d.mas !== undefined ? Math.min(o.disponibles, n + 1) : Math.max(0, n - 1);
+  pintar(); barra();
+});
+$('q').addEventListener('input', pintar);
+
+$('bolsaflot').onclick = () => {
+  const { its, total } = barra();
+  if (!its.length) { document.getElementById('ofertas').scrollIntoView({ behavior: 'smooth' }); return; }
+  $('detalle').innerHTML = its.map(i => '<div class="linea"><span>' + i.cant + ' × ' + esc(i.nombre) + '</span><span>' + plata(i.cant * i.precio) + '</span></div>').join('') +
+    '<div class="linea tot"><span>Total</span><span>' + plata(total) + '</span></div>';
+  $('paso1').hidden = false; $('paso2').hidden = true; $('err').style.display = 'none';
+  $('dlg').showModal();
+};
+$('btnVolver').onclick = () => $('dlg').close();
+$('btnCerrar').onclick = () => location.reload();
+['fNombre', 'fFono'].forEach(id => $(id).addEventListener('input', () => {
+  const ok = id === 'fNombre' ? $(id).value.trim().length >= 3 : $(id).value.replace(/\D/g, '').length >= 8;
+  $(id).parentElement.classList.toggle('ok', ok);
+}));
+const falla = (m) => { $('err').textContent = m; $('err').style.display = 'block'; };
+
+$('btnConfirmar').onclick = async () => {
+  const datos = {
+    cliente: $('fNombre').value.trim(), telefono: $('fFono').value.trim(),
+    retiro: document.querySelector('input[name="hora"]:checked').value,
+    pago: document.querySelector('input[name="pago"]:checked').value, notas: $('fNota').value.trim(),
+  };
+  if (datos.cliente.length < 3) return falla('Escribe tu nombre.');
+  if (datos.telefono.replace(/\D/g, '').length < 8) return falla('Escribe un teléfono para poder avisarte.');
+  const { its, total } = barra();
+  const b = $('btnConfirmar'); b.disabled = true; b.textContent = 'Apartando…';
+  try {
+    const j = await api('/pedido', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({ token: CONFIG.token, items: its }, datos)) });
+    if (j && j.ok === false && j.motivo) { b.disabled = false; b.textContent = 'Apartar mi bolsa'; cargar(); return falla(j.motivo + '.'); }
+    if (!j || !j.codigo) throw new Error('sin codigo');
+    const paga = datos.pago === 'TARJETA' ? 'tarjeta en caja' : 'efectivo en caja';
+    $('codigo').textContent = j.codigo;
+    $('resumenFinal').textContent = its.reduce((s, i) => s + i.cant, 0) + ' productos · ' + plata(total) + ' · pagas con ' + paga;
+    $('avisoRetiro').textContent = 'Pasas a retirar ' + datos.retiro.toLowerCase();
+    let txt = 'Hola, aparté mi pedido ' + j.codigo + ' en la página.\n\n';
+    its.forEach(i => { txt += i.cant + ' x ' + i.nombre + ' — ' + plata(i.cant * i.precio) + '\n'; });
+    txt += '\nTotal: ' + plata(total) + '\nRetiro: ' + datos.retiro + '\nPago: ' + paga + '\n' + datos.cliente + (datos.notas ? '\nNota: ' + datos.notas : '');
+    if (CONFIG.whatsapp) { $('btnWa').href = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(txt); $('btnWa').textContent = 'Guardar en WhatsApp'; }
+    else { $('btnWa').href = CONFIG.grupo; $('btnWa').textContent = 'Grupo de ofertas'; }
+    $('paso1').hidden = true; $('paso2').hidden = false;
+  } catch (e) {
+    falla(CONFIG.whatsapp ? 'No se pudo apartar. Intenta de nuevo o escríbenos por WhatsApp al ' + CONFIG.whatsapp + '.' : 'No se pudo apartar. Intenta de nuevo en un momento.');
+  }
+  b.disabled = false; b.textContent = 'Apartar mi bolsa';
+};
+
+cargar();
+setInterval(() => { if (!$('dlg').open) cargar(); }, 45000);
+</script>
+</body>
+</html>
